@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Workbench</title>
+
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css" integrity="sha256-XoaMnoYC5TH6/+ihMEnospgm0J1PM/nioxbOUdnM8HY=" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/zephyr/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/styles.css">
+
+</head>
+<body class="d-flex flex-column h-100">
+<div id="app">
+    <header class="fixed-top bg-light border-bottom">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">{{appName}}</a>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav me-auto" >
+                        <li class="nav-item active">
+                            <a class="nav-link" href="inde.html">
+                                <i class="fa fa-home px-1"></i> Home <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="row my-1">
+                <div class="col-md-4">
+                    <strong>{{viewName}}</strong>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main role="main" class="container flex-shrink-0">
+        <br/>
+        <div class=".d-none .d-sm-block .d-md-none">&nbsp;</div>
+        <div class="container">
+            <h1>Welcome</h1>
+            <br/>
+            <p>Dev UI <a href="/q/dev">here</a>&nbsp;&nbsp;Swagger UI <a href="/q/swagger-ui">here</a></p>
+            <br/>
+        </div>
+        <br/>
+    </main>
+
+    <footer class="footer bg-light border-top">
+        <div class="container">
+            <p class="text-center my-2">&copy; 2022 {{appName}}</p>
+        </div>
+    </footer>
+</div>
+
+<script src="//unpkg.com/vue@next"></script>
+<script>
+  const App = {
+    data() {
+      return {
+        appName: 'SalesTap',
+        viewName: 'Home'
+      }
+    }
+  };
+  const app = Vue.createApp(App);
+  app.mount("#app");
+</script>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{appName ?: "SalesTap"}</title>
+    <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
+    <style>
+        html, body {
+          margin:0;
+          padding:0;
+        }
+        #app {
+          height: 600vh;
+          width: 100vw;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <div class="common-layout">
+        <el-container>
+            <el-aside width="200px" :style="{ 'background-color': '#409EFF' }">
+                <h1>{appName ?: "SalesTap"}</h1>
+            </el-aside>
+            <el-container>
+                <el-header height="40px" :style="{ 'background-color': '#EBEEF5' }">
+                    Home
+                </el-header>
+                <el-main>
+                    <h1>{{ message }}</h1>
+                    <el-button @click="count++">Count is : {{ count }}</el-button>
+                </el-main>
+            </el-container>
+        </el-container>
+    </div>
+</div>
+
+<script src="//unpkg.com/vue@next"></script>
+<script src="//unpkg.com/element-plus"></script>
+
+<script>
+  const App = {
+    data() {
+      return {
+        message: 'Welcome to Quarkus Vue Element Plus!',
+        count: 0
+      }
+    }
+  };
+  const app = Vue.createApp(App);
+  app.use(ElementPlus);
+  app.mount("#app");
+</script>
+</body>
+</html>
