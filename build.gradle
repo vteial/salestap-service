@@ -12,21 +12,21 @@ dependencies {
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.jasypt:jasypt:1.9.3'
     implementation 'io.quarkus:quarkus-arc'
 //    implementation 'io.quarkus:quarkus-resteasy-reactive'
     implementation 'io.quarkus:quarkus-resteasy-jackson'
     implementation 'io.quarkus:quarkus-resteasy-qute'
     implementation 'io.quarkus:quarkus-smallrye-openapi'
 //    implementation 'io.quarkus:quarkus-jdbc-h2'
-    implementation("io.quarkus:quarkus-jdbc-postgresql")
-    implementation("io.quarkus:quarkus-hibernate-orm-panache")
-    implementation("io.quarkus:quarkus-smallrye-health")
+    implementation 'io.quarkus:quarkus-jdbc-postgresql'
+    implementation 'io.quarkus:quarkus-hibernate-orm-panache'
+    implementation 'io.quarkus:quarkus-smallrye-health'
 
     testImplementation 'io.quarkus:quarkus-junit5'
-    testImplementation("io.rest-assured:rest-assured")
+    testImplementation 'io.rest-assured:rest-assured'
     testCompileOnly 'org.projectlombok:lombok:1.18.22'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
-
 }
 
 group 'io.vteial.salestap'
