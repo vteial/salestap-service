@@ -1,6 +1,5 @@
-package io.vteial.salestap.dto;
+package io.vteial.salestap.dtos;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 

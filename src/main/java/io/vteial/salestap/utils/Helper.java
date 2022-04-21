@@ -1,4 +1,4 @@
-package io.vteial.salestap.util;
+package io.vteial.salestap.utils;
 
 //import javax.servlet.http.HttpServletRequest;
 

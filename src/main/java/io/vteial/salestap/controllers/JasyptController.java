@@ -1,13 +1,12 @@
 package io.vteial.salestap.controllers;
 
-import io.vteial.salestap.dto.ResponseDto;
-import io.vteial.salestap.util.Helper;
-import io.vteial.salestap.util.JasyptConfigSource;
+import io.vteial.salestap.dtos.ResponseDto;
+import io.vteial.salestap.utils.Helper;
+import io.vteial.salestap.utils.JasyptConfigSource;
 import lombok.extern.slf4j.Slf4j;
 import org.jasypt.encryption.StringEncryptor;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.*;
 

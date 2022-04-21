@@ -1,4 +1,4 @@
-package io.vteial.salestap.util;
+package io.vteial.salestap.utils;
 
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;

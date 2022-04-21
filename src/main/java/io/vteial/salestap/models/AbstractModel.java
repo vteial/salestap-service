@@ -1,4 +1,4 @@
-package io.vteial.salestap.model;
+package io.vteial.salestap.models;
 
 import java.io.Serializable;
 

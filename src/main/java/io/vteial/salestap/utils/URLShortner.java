@@ -1,4 +1,4 @@
-package io.vteial.salestap.util;
+package io.vteial.salestap.utils;
 
 import java.util.HashMap;
 import java.util.Random;
