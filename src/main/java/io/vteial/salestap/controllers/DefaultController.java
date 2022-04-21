@@ -2,9 +2,11 @@ package io.vteial.salestap.controllers;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
+import io.vteial.salestap.services.TaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -38,6 +40,16 @@ public class DefaultController {
     public String ping() {
         log.debug("serving ping...");
         return "Ping Pong!!!";
+    }
+
+    @Inject
+    private TaskService taskService;
+
+    @GET
+    @Path("testCounter")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String testCounter() {
+        return String.valueOf(taskService.getTestCounter());
     }
 
 }
