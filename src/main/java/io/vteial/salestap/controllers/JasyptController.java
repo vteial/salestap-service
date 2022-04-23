@@ -69,7 +69,8 @@ public class JasyptController {
     @GET
     @Path("/decrypt/{text}")
     public ResponseDto decrypt(@PathParam("text") String text) {
-        ResponseDto responseDto =  ResponseDto.builder().build();;
+        ResponseDto responseDto = ResponseDto.builder().build();
+        ;
 
         try {
             log.debug("text : {}", text);

@@ -1,9 +1,8 @@
 package io.vteial.salestap.services;
 
-import java.util.List;
-import java.util.Map;
-
 import io.vteial.salestap.models.AppConfig;
+
+import java.util.List;
 
 public interface AppConfigService {
 

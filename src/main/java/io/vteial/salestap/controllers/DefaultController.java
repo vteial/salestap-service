@@ -6,6 +6,7 @@ import io.vteial.salestap.services.TaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -16,12 +17,13 @@ import static java.util.Objects.requireNonNull;
 
 @Slf4j
 @Path("/")
+@ApplicationScoped
 public class DefaultController {
 
     private final Template index;
 
     @ConfigProperty(name = "app.name")
-    private String appName = "-";
+    String appName = "-";
 
     public DefaultController(Template index) {
         this.index = requireNonNull(index, "index template is required");
@@ -43,7 +45,7 @@ public class DefaultController {
     }
 
     @Inject
-    private TaskService taskService;
+    TaskService taskService;
 
     @GET
     @Path("testCounter")

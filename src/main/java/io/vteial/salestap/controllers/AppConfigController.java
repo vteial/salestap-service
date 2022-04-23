@@ -1,19 +1,16 @@
 package io.vteial.salestap.controllers;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-
-import lombok.extern.slf4j.Slf4j;
-
 import io.vteial.salestap.dtos.ResponseDto;
 import io.vteial.salestap.models.AppConfig;
 import io.vteial.salestap.services.AppConfigService;
+import lombok.extern.slf4j.Slf4j;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
+import java.util.List;
+import java.util.Map;
 
 
 @Slf4j

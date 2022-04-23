@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "APP_CONFIG")
+@Table(name = "ST_APP_CONFIG")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

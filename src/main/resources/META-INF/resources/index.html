@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="app">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Workbench</title>
+    <title>SalesTap</title>
 
     <link rel="icon" type="image/png" href="assets/favicon.png">
 
@@ -13,17 +13,75 @@
 
 </head>
 <body class="d-flex flex-column h-100">
-<div id="app">
+
+<div id="app"></div>
+
+<script type="text/x-template" id="app-home-view">
+    <p>Welcome to <strong class="text-info">SalesTap</strong> setup process</p>
+</script>
+
+<script type="text/x-template" id="app-register-owner-view">
+    <form class="row g-3">
+        <div class="col-md-4">
+            <label for="userFirstName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="userFirstName"
+                   v-model="item.firstName" required="true">
+        </div>
+        <div class="col-md-4">
+            <label for="userLastName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="userLastName"
+                   v-model="item.lastName" required="true">
+        </div>
+        <div class="col-md-4">
+            <label for="userEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="userEmail"
+                   v-model="item.email" required="true">
+        </div>
+        <div class="col-md-6">
+            <label for="userId" class="form-label">User Id</label>
+            <input type="text" class="form-control" id="userId"
+                   v-model="item.userId" required="true">
+        </div>
+        <div class="col-md-6">
+            <label for="userPassword" class="form-label">Password</label>
+            <input type="password" class="form-control" id="userPassword"
+                   v-model="item.password" required="true">
+        </div>
+        <div class="col-12">
+            <button type="button" class="btn btn-primary" @click="save()">Sign in</button>
+        </div>
+    </form>
+</script>
+
+<script type="text/x-template" id="app-create-shop-view">
+    <p>{{$route.name}} Works</p>
+</script>
+
+<script type="text/x-template" id="app-summary-view">
+    <p>{{$route.name}} Works</p>
+</script>
+
+<script type="text/x-template" id="app-root-view">
+
     <header class="fixed-top bg-light border-bottom">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
                 <a class="navbar-brand" href="index.html">{{appName}}</a>
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav me-auto" >
-                        <li class="nav-item active">
-                            <a class="nav-link" href="inde.html">
+                        <li class="nav-item">
+                            <router-link to="/home" class="nav-link px-2">
                                 <i class="fa fa-home px-1"></i> Home <span class="sr-only">(current)</span>
-                            </a>
+                            </router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link to="/register-owner" class="nav-link px-2">Register Owner</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link to="/create-shop" class="nav-link px-2">Create Shop</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link to="/summary" class="nav-link px-2">Summary</router-link>
                         </li>
                     </ul>
                 </div>
@@ -32,7 +90,7 @@
         <div class="container">
             <div class="row my-1">
                 <div class="col-md-4">
-                    <strong>{{viewName}}</strong>
+                    <strong class="text-camel-case">{{$route.name}}</strong>
                 </div>
             </div>
         </div>
@@ -40,12 +98,9 @@
 
     <main role="main" class="container flex-shrink-0">
         <br/>
-        <div class=".d-none .d-sm-block .d-md-none">&nbsp;</div>
         <div class="container">
-            <h1>Welcome</h1>
             <br/>
-            <p>Dev UI <a href="/q/dev">here</a>&nbsp;&nbsp;Swagger UI <a href="/q/swagger-ui">here</a></p>
-            <br/>
+            <router-view></router-view>
         </div>
         <br/>
     </main>
@@ -55,21 +110,14 @@
             <p class="text-center my-2">&copy; 2022 {{appName}}</p>
         </div>
     </footer>
-</div>
 
-<script src="//unpkg.com/vue@next"></script>
-<script>
-  const App = {
-    data() {
-      return {
-        appName: 'SalesTap',
-        viewName: 'Home'
-      }
-    }
-  };
-  const app = Vue.createApp(App);
-  app.mount("#app");
 </script>
+
+<script src="//unpkg.com/axios/dist/axios.min.js"></script>
+<script src="//unpkg.com/vue@next"></script>
+<script src="//unpkg.com/vue-router@4"></script>
+
+<script src="index.js"></script>
 
 </body>
 </html>

@@ -1,20 +1,18 @@
 package io.vteial.salestap.services.impl;
 
-import java.util.Date;
-import java.util.List;
+import io.quarkus.panache.common.Sort;
+import io.vteial.salestap.dtos.SetUpDto;
+import io.vteial.salestap.models.AppConfig;
+import io.vteial.salestap.repos.AppConfigRepository;
+import io.vteial.salestap.services.AppConfigService;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-
-import lombok.extern.slf4j.Slf4j;
-
-import io.quarkus.panache.common.Sort;
-
-import io.vteial.salestap.models.AppConfig;
-import io.vteial.salestap.repos.AppConfigRepository;
-import io.vteial.salestap.services.AppConfigService;
+import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @ApplicationScoped
@@ -25,9 +23,12 @@ public class DefaultAppConfigService implements AppConfigService {
 
     @PostConstruct
     public void init() {
-        log.debug("AppConfig service initialization started...");
-
-        log.debug("AppConfig service initialization finished...");
+        AppConfig appConfig = appConfigRepository.find("key", "setUpState").firstResult();
+        if (appConfig == null) {
+            appConfig = AppConfig.builder().key("setUpState").value(SetUpDto.STATE_NEW).build();
+            appConfig.prePersist(null, new Date());
+            appConfigRepository.persist(appConfig);
+        }
     }
 
     @Override

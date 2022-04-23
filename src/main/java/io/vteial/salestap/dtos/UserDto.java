@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 public class UserDto implements Serializable {
 
-    long id;
+    Long id;
 
     String recaptchaValue;
 
