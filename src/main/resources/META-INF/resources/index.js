@@ -33,7 +33,7 @@ const setUpService = {
    setSetUpInfo: function(item) {
        this.setUpInfo.state = item.state;
        this.setUpInfo.steps = item.steps;
-       this.setUpInfo.termsAndConditions = items.termsAndConditions;
+       this.setUpInfo.termsAndConditions = item.termsAndConditions;
    },
    auth: function(item) {
        return http.post('/set-up/auth', item);

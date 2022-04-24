@@ -1,6 +1,5 @@
 package io.vteial.salestap.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.vteial.salestap.dtos.SessionDto;
 import lombok.*;
 
