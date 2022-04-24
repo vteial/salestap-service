@@ -18,24 +18,40 @@
 
 <script type="text/x-template" id="app-home-view">
     <p>Welcome to <strong class="text-info">SalesTap</strong> setup process</p>
+    <form class="row g-3">
+        <div class="col-md-4">
+            <div>
+                <label for="sadminPassword" class="form-label">System Admin Password</label>
+                <input type="password" class="form-control" id="sadminPassword"
+                       v-model="item.password" required="true">
+            </div>
+            <div class="py-3">
+                <button type="submit" class="btn btn-primary float-end" @click="auth()">Sign in</button>
+            </div>
+            <br/><br/>
+            <div class="alert alert-danger" role="alert" v-if="(message)">{{message}}</div>
+        </div>
+        <div class="col-md-8">&nbsp;</div>
+    </form>
 </script>
 
 <script type="text/x-template" id="app-register-owner-view">
+    <div class="alert alert-danger" role="alert" v-if="(message)">{{message}}</div>
     <form class="row g-3">
         <div class="col-md-4">
-            <label for="userFirstName" class="form-label">Name</label>
+            <label for="userFirstName" class="form-label">First Name</label>
             <input type="text" class="form-control" id="userFirstName"
                    v-model="item.firstName" required="true">
         </div>
         <div class="col-md-4">
-            <label for="userLastName" class="form-label">Name</label>
+            <label for="userLastName" class="form-label">Last Name</label>
             <input type="text" class="form-control" id="userLastName"
                    v-model="item.lastName" required="true">
         </div>
         <div class="col-md-4">
             <label for="userEmail" class="form-label">Email</label>
             <input type="email" class="form-control" id="userEmail"
-                   v-model="item.email" required="true">
+                   v-model="item.emailId" required="true">
         </div>
         <div class="col-md-6">
             <label for="userId" class="form-label">User Id</label>
@@ -70,18 +86,27 @@
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav me-auto" >
                         <li class="nav-item">
-                            <router-link to="/home" class="nav-link px-2">
+                            <router-link to="/home" class="nav-link px-2"  :class="{ active: $route.name === 'Home' }">
                                 <i class="fa fa-home px-1"></i> Home <span class="sr-only">(current)</span>
                             </router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/register-owner" class="nav-link px-2">Register Owner</router-link>
+                            <router-link to="/register-owner" class="nav-link px-2"
+                                         :class="{ active: $route.name === 'Register Owner', disabled: !setUpInfo.steps['register-owner'] }">
+                                Register Owner
+                            </router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/create-shop" class="nav-link px-2">Create Shop</router-link>
+                            <router-link to="/create-shop" class="nav-link px-2"
+                                         :class="{ active: $route.name === 'Create Shop', disabled: !setUpInfo.steps['create-shop'] }">
+                                Create Shop
+                            </router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/summary" class="nav-link px-2">Summary</router-link>
+                            <router-link to="/summary" class="nav-link px-2"
+                                         :class="{ active: $route.name === 'Summary', disabled: !setUpInfo.steps['summary'] }">
+                                Summary
+                            </router-link>
                         </li>
                     </ul>
                 </div>

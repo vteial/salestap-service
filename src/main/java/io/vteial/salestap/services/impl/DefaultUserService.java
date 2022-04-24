@@ -27,18 +27,19 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public User create(User user) {
-        user.prePersist(null, new Date());
-        user.correctData();
-        userRepository.persist(user);
-        return user;
+    public User create(User item) {
+        item.prePersist(null, new Date());
+        item.correctData();
+        log.info("{}", item);
+        userRepository.persist(item);
+        return item;
     }
 
     @Override
-    public User update(User user) {
-        User euser = userRepository.findById(user.getId());
-        // ToDo: copy relevant fields from user to euser;
-        return euser;
+    public User update(User item) {
+        User eitem = userRepository.findById(item.getId());
+        // ToDo: copy relevant fields from item to eitem;
+        return eitem;
     }
 
 //    @Override

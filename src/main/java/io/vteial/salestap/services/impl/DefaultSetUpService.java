@@ -2,14 +2,16 @@ package io.vteial.salestap.services.impl;
 
 import io.vteial.salestap.dtos.SetUpDto;
 import io.vteial.salestap.models.AppConfig;
+import io.vteial.salestap.models.Shop;
 import io.vteial.salestap.models.User;
 import io.vteial.salestap.models.constants.UserStatus;
 import io.vteial.salestap.models.constants.UserType;
 import io.vteial.salestap.repos.AppConfigRepository;
-import io.vteial.salestap.services.AppConfigService;
 import io.vteial.salestap.services.SetUpService;
+import io.vteial.salestap.services.ShopService;
 import io.vteial.salestap.services.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -20,29 +22,73 @@ import javax.transaction.Transactional;
 @ApplicationScoped
 public class DefaultSetUpService implements SetUpService {
 
-    @Inject
-    AppConfigRepository appConfigRepository;
+    @ConfigProperty(name = "app.sadmin-password")
+    private String sadminPassword = "-";
 
     @Inject
-    UserService userService;
+    private AppConfigRepository appConfigRepository;
+
+    @Inject
+    private UserService userService;
+
+    @Inject
+    private ShopService shopService;
+
+    private SetUpDto setUpDto;
 
     @PostConstruct
     public void init() {
+        setUpDto = SetUpDto.builder().build();
+        setUpDto.initSteps();
+        AppConfig appConfig = appConfigRepository.find("key", "setUpState").firstResult();
+        setUpDto.setState(appConfig == null ? SetUpDto.STATE_NEW : appConfig.getValue());
+        log.info("{}", setUpDto);
     }
 
     @Override
     public SetUpDto getCurrentState() {
-        SetUpDto setUpDto = SetUpDto.builder().build();
-        AppConfig appConfig = appConfigRepository.find("key", "setUpState").firstResult();
-        setUpDto.setState(appConfig == null ? SetUpDto.STATE_NEW : appConfig.getValue());
         return setUpDto;
+    }
+
+    public boolean auth(String password) {
+        return sadminPassword.equals(password);
     }
 
     @Transactional
     @Override
     public User registerOwner(User item) {
         item.setType(UserType.OWNER);
+        item.setRoleId("owner");
         item.setStatus(UserStatus.ACTIVE);
-        return userService.create(item);
+        item = userService.create(item);
+        return item;
+    }
+
+    @Transactional
+    @Override
+    public Shop createShop(Shop item) {
+        if(item.getId() == 0) item.setParentId(0L);
+        item.setStatus(UserStatus.ACTIVE);
+        item = shopService.create(item);
+        return item;
+    }
+
+    @Override
+    public void markRegisterOwnerCompleted() {
+        setUpDto.setState(SetUpDto.STATE_IN_PROGRESS);
+        setUpDto.getSteps().put(SetUpDto.STEP_REGISTER_OWNER, true);
+    }
+
+    @Override
+    public void markCreateShopCompleted() {
+        setUpDto.setState(SetUpDto.STATE_IN_PROGRESS);
+        setUpDto.getSteps().put(SetUpDto.STEP_CREATE_SHOP, true);
+    }
+
+    @Override
+    public void markSummaryCompleted() {
+        setUpDto.setState(SetUpDto.STATE_COMPLETED);
+        setUpDto.getSteps().put(SetUpDto.STEP_SUMMARY, true);
+        setUpDto.setTermsAndConditions(true);
     }
 }

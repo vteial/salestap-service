@@ -43,7 +43,7 @@ public class User extends AbstractModel {
     @Column(name = "type")
     String type;
 
-    @Column(name = "token")
+    @Column(name = "token", nullable = true)
     String token;
 
     @Column(name = "status")

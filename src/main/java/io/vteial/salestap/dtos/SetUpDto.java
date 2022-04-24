@@ -3,6 +3,9 @@ package io.vteial.salestap.dtos;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Builder
 @Data
 public class SetUpDto {
@@ -15,6 +18,23 @@ public class SetUpDto {
 
     public static String STATE_COMPLETED = "Completed";
 
+    public static String STEP_REGISTER_OWNER = "register-owner";
+
+    public static String STEP_CREATE_SHOP = "create-shop";
+
+    public static String STEP_SUMMARY = "summary";
+
     String state;
+
+    Map<String, Boolean> steps;
+
+    boolean termsAndConditions;
+
+    public void initSteps() {
+        steps = new HashMap<>();
+        steps.put(STEP_REGISTER_OWNER, false);
+        steps.put(STEP_CREATE_SHOP, false);
+        steps.put(STEP_SUMMARY, false);
+    }
 
 }
