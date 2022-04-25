@@ -4,6 +4,7 @@ import io.vteial.salestap.dtos.SetUpDto;
 import io.vteial.salestap.models.AppConfig;
 import io.vteial.salestap.models.Shop;
 import io.vteial.salestap.models.User;
+import io.vteial.salestap.models.constants.EntityStatus;
 import io.vteial.salestap.models.constants.UserStatus;
 import io.vteial.salestap.models.constants.UserType;
 import io.vteial.salestap.repos.AppConfigRepository;
@@ -61,6 +62,7 @@ public class DefaultSetUpService implements SetUpService {
         item.setRoleId("owner");
         item.setStatus(UserStatus.ACTIVE);
         item = userService.create(item);
+        setUpDto.setOwner(item);
         return item;
     }
 
@@ -68,8 +70,10 @@ public class DefaultSetUpService implements SetUpService {
     @Override
     public Shop createShop(Shop item) {
         if(item.getId() == 0) item.setParentId(0L);
-        item.setStatus(UserStatus.ACTIVE);
+        item.setUserId(setUpDto.getOwner().getId());
+        item.setStatus(EntityStatus.ACTIVE);
         item = shopService.create(item);
+        setUpDto.setShop(item);
         return item;
     }
 

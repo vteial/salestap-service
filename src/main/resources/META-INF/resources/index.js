@@ -10,7 +10,9 @@ const setUpService = {
     setUpInfo: {
         state: 'New',
         steps: { 'register-owner': false, 'create-shop': false, 'summary': false },
-        termsAndConditions: false
+        termsAndConditions: false,
+        owner: null,
+        shop: null
    },
    ownerInfo: {
        id: 0,
@@ -34,6 +36,8 @@ const setUpService = {
        this.setUpInfo.state = item.state;
        this.setUpInfo.steps = item.steps;
        this.setUpInfo.termsAndConditions = item.termsAndConditions;
+       this.setUpInfo.owner = item.owner;
+       this.setUpInfo.shop = item.shop;
    },
    auth: function(item) {
        return http.post('/set-up/auth', item);
@@ -45,7 +49,7 @@ const setUpService = {
        return http.post('/set-up/create-shop', item);
    },
    acceptTermsAndConditions: function(atc) {
-       return http.post('/set-up/accept-terms-and-conditions?atc='+atc);
+       return http.get('/set-up/accept-terms-and-conditions?atc='+atc);
    }
 }
 
@@ -59,7 +63,7 @@ const homeView = {
     template: '#app-home-view',
     mounted() {
         console.log('home mounted...');
-        console.log(setUpService.sadminInfo);
+        console.log(setUpService.setUpInfo);
     },
     data() {
         var o = {
@@ -78,8 +82,16 @@ const homeView = {
             // console.log(this.item);
             setUpService.auth(this.item).then(res => {
                 console.log(res);
-                if(res.data.type === 0)
-                    this.$router.push('/register-owner');
+                if(res.data.type === 0) {
+                    var o = setUpService.setUpInfo;
+                    console.log(o);
+                    if(o.steps['create-shop'])
+                        this.$router.push('/summary');
+                    else if(o.steps['register-owner'])
+                        this.$router.push('/create-shop');
+                    else
+                        this.$router.push('/register-owner');
+                }
                 else
                     this.message = res.data.message;
             });
@@ -92,7 +104,7 @@ const registerOwnerView = {
     template: '#app-register-owner-view',
     mounted() {
         console.log('register-owner mounted');
-        console.log(setUpService.ownerInfo);
+        console.log(setUpService.setUpInfo);
     },
     data() {
         var o = setUpService.ownerInfo;
@@ -114,14 +126,18 @@ const registerOwnerView = {
     },
     methods: {
         proceed() {
+            if(setUpService.setUpInfo.steps['register-owner']) {
+                this.$router.push('/create-shop');
+                return;
+            }
+
             this.message = null;
             this.item.token = this.item.password;
             // console.log(this.item);
             setUpService.registerOwner(this.item).then(res => {
                 console.log(res);
                 if(res.data.type === 0) {
-                    setUpService.ownerInfo = res.data.data.ownerInfo
-                    setUpService.setSetUpInfo(res.data.data.setUpInfo);
+                    setUpService.setSetUpInfo(res.data.data);
                     this.$router.push('/create-shop');
                 } else {
                     this.message = res.data.message;
@@ -136,7 +152,7 @@ const createShopView = {
     template: '#app-create-shop-view',
     mounted() {
         console.log('create-shop mounted');
-        console.log(setUpService.ownerInfo);
+        console.log(setUpService.setUpInfo);
     },
     data() {
         var o = setUpService.shopInfo;
@@ -156,13 +172,17 @@ const createShopView = {
     },
     methods: {
         proceed() {
+            if(setUpService.setUpInfo.steps['create-shop']) {
+                this.$router.push('/summary');
+                return;
+            }
+
             this.message = null;
             // console.log(this.item);
             setUpService.createShop(this.item).then(res => {
                 console.log(res);
                 if(res.data.type === 0) {
-                    setUpService.shopInfo = res.data.data.shopInfo
-                    setUpService.setSetUpInfo(res.data.data.setUpInfo);
+                    setUpService.setSetUpInfo(res.data.data);
                     this.$router.push('/summary');
                 } else {
                     this.message = res.data.message;
@@ -178,25 +198,27 @@ const summaryView = {
     mounted() {
         console.log('summary mounted');
         console.log(setUpService.setUpInfo);
-        console.log(setUpService.ownerInfo);
-        console.log(setUpService.shopInfo);
     },
     data() {
         return {
             setUpInfo: setUpService.setUpInfo,
-            owner: setUpService.ownerInfo,
-            shop: setUpService.shopInfo,
-            atc: false,
+            owner: setUpService.setUpInfo.owner,
+            shop: setUpService.setUpInfo.shop,
+            atc: setUpService.setUpInfo.termsAndConditions,
             message: null
         }
     },
     methods: {
         proceed() {
+            if(setUpService.setUpInfo.steps['summary']) {
+                this.$router.push('/home');
+                return;
+            }
             this.message = null;
             setUpService.acceptTermsAndConditions(this.atc).then(res => {
                 console.log(res);
                 if(res.data.type === 0) {
-                    setUpService.setSetUpInfo(res.data.data.setUpInfo);
+                    setUpService.setSetUpInfo(res.data.data);
                     this.$router.push('/home');
                 } else {
                     this.message = res.data.message;

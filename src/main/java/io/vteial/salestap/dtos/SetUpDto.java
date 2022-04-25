@@ -1,5 +1,7 @@
 package io.vteial.salestap.dtos;
 
+import io.vteial.salestap.models.Shop;
+import io.vteial.salestap.models.User;
 import lombok.Builder;
 import lombok.Data;
 
@@ -24,11 +26,15 @@ public class SetUpDto {
 
     public static String STEP_SUMMARY = "summary";
 
-    String state;
+    private String state;
 
-    Map<String, Boolean> steps;
+    private Map<String, Boolean> steps;
 
-    boolean termsAndConditions;
+    private boolean termsAndConditions;
+
+    private User owner;
+
+    private Shop shop;
 
     public void initSteps() {
         steps = new HashMap<>();

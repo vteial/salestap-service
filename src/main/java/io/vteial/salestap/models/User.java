@@ -21,35 +21,35 @@ public class User extends AbstractModel {
     @Column(name = "id")
     Long id;
 
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false)
     String userId;
 
     @JsonIgnore
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     String password;
 
-    @Column(name = "email_id")
+    @Column(name = "email_id", nullable = false)
     String emailId;
 
-    @Column(name = "mobile_no")
+    @Column(name = "mobile_no", nullable = false)
     String mobileNo;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     String lastName;
 
-    @Column(name = "type")
+    @Column(name = "type", nullable = false)
     String type;
 
-    @Column(name = "token", nullable = true)
+    @Column(name = "token")
     String token;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     String status;
 
-    @Column(name = "role_id")
+    @Column(name = "role_id", nullable = false)
     String roleId;
 
 //    transient Role role;

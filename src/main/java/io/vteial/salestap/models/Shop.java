@@ -22,22 +22,22 @@ public class Shop extends AbstractModel {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "code")
+    @Column(name = "code", nullable = false)
     private String code;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "alias_name", nullable = true)
     private String aliasName;
 
-    @Column(name = "parent_id")
+    @Column(name = "parent_id", nullable = false)
     private long parentId;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private String status;
 
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 
 //    @JsonIgnore
@@ -59,10 +59,10 @@ public class Shop extends AbstractModel {
     @Column(name = "update_time", nullable = false)
     Date updateTime;
 
-    @Column(name = "create_by", nullable = false)
+    @Column(name = "create_by")
     Long createBy;
 
-    @Column(name = "update_by", nullable = false)
+    @Column(name = "update_by")
     Long updateBy;
 
     // persistance operations

@@ -36,6 +36,7 @@
 </script>
 
 <script type="text/x-template" id="app-register-owner-view">
+    <h2>Owner Info</h2>
     <div class="alert alert-danger" role="alert" v-if="(message)">{{message}}</div>
     <form class="row g-3">
         <div class="col-md-4">
@@ -64,17 +65,136 @@
                    v-model="item.password" required="true">
         </div>
         <div class="col-12">
-            <button type="button" class="btn btn-primary" @click="proceed()">Sign in</button>
+            <button type="button" class="btn btn-primary" @click="proceed()">Proceed</button>
         </div>
     </form>
 </script>
 
 <script type="text/x-template" id="app-create-shop-view">
-    <p>{{$route.name}} Works</p>
+    <h2>Shop Info</h2>
+    <div class="alert alert-danger" role="alert" v-if="(message)">{{message}}</div>
+    <form class="row g-3">
+        <div class="col-md-4">
+            <label for="shopCode" class="form-label">Code</label>
+            <input type="text" class="form-control" id="shopCode"
+                   v-model="item.code" required="true">
+        </div>
+        <div class="col-md-4">
+            <label for="shopName" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="shopName"
+                   v-model="item.name" required="true">
+        </div>
+        <div class="col-md-4">
+            <label for="shopAliasName" class="form-label">Email</label>
+            <input type="email" class="form-control" id="shopAliasName"
+                   v-model="item.aliasName" required="true">
+        </div>
+        <div class="col-12">
+            <button type="button" class="btn btn-primary" @click="proceed()">Proceed</button>
+        </div>
+    </form>
 </script>
 
 <script type="text/x-template" id="app-summary-view">
-    <p>{{$route.name}} Works</p>
+    <div class="border-bottom">
+        <h2>Owner Info</h2>
+    </div>
+    <div class="row py-2">
+        <div class="col-2">
+            <h6>First Name</h6>
+        </div>
+        <div class="col-4">
+            <h5 class="text-capitalize">{{ owner.firstName }}</h5>
+        </div>
+        <div class="col-2">
+            <h6>Last Name</h6>
+        </div>
+        <div class="col-4">
+            <h5 class="text-capitalize">{{ owner.lastName }}</h5>
+        </div>
+
+        <div class="col-2">
+            <h6>Email Id</h6>
+        </div>
+        <div class="col-4">
+            <h5>{{ owner.emailId }}</h5>
+        </div>
+        <div class="col-2">
+            <h6>Mobile No.</h6>
+        </div>
+        <div class="col-4">
+            <h5>{{ owner.mobileNo }}</h5>
+        </div>
+
+        <div class="col-2">
+            <h6>User Id</h6>
+        </div>
+        <div class="col-4">
+            <h5 class="text-lowercase">{{ owner.userId }}</h5>
+        </div>
+        <div class="col-2">
+            <h6>Status</h6>
+        </div>
+        <div class="col-4">
+            <h5 class="text-uppercase text-success">{{ owner.status }}</h5>
+        </div>
+
+        <div class="col-2">
+            <h6>Type</h6>
+        </div>
+        <div class="col-4">
+            <h5 class="text-uppercase text-info">{{ owner.type }}</h5>
+        </div>
+        <div class="col-2">
+            <h6>Role</h6>
+        </div>
+        <div class="col-4">
+            <h5 class="text-uppercase text-info">{{ owner.roleId }}</h5>
+        </div>
+    </div>
+    <div class="border-bottom">
+        <h2>Shop Info</h2>
+    </div>
+    <div class="row py-2">
+        <div class="col-2">
+            <h6>Name</h6>
+        </div>
+        <div class="col-4">
+            <h5 class="text-capitalize">{{ shop.name }}</h5>
+        </div>
+        <div class="col-2">
+            <h6>Alias Name</h6>
+        </div>
+        <div class="col-4">
+            <h5 class="text-capitalize">{{ shop.aliasName }}</h5>
+        </div>
+        <div class="col-2">
+            <h6>Code</h6>
+        </div>
+        <div class="col-4">
+            <h5 class="text-uppercase">{{ shop.code }}</h5>
+        </div>
+        <div class="col-2">
+            <h6>Status</h6>
+        </div>
+        <div class="col-4">
+            <h5 class="text-uppercase text-success">{{ shop.status }}</h5>
+        </div>
+    </div>
+    <form class="border-top">
+        <div class="form-check py-2">
+            <input class="form-check-input" type="checkbox" id="atc" v-model="atc">
+            <label class="form-check-label" for="atc">I accept the terms and conditions</label>
+        </div>
+        <div class="row py-2">
+            <div class="col-8">
+                <div class="py- alert alert-danger" role="alert" v-if="(message)">{{message}}</div>
+            </div>
+            <div class="col-4">
+                <button type="button" class="btn btn-primary float-end" @click="proceed()">Proceed</button>
+            </div>
+        </div>
+    </form>
 </script>
 
 <script type="text/x-template" id="app-root-view">

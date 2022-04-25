@@ -46,12 +46,16 @@ public class SetUpController {
     @Path("/register-owner")
     public ResponseDto registerOwner(User item) {
         ResponseDto response = ResponseDto.builder().type(ResponseDto.SUCCESS).build();
+
         item.setPassword(item.getToken());
         item.setToken(null);
-        item = setUpService.registerOwner(item);
-        log.info("{}", item);
+
+        SetUpDto setUpDto = setUpService.getCurrentState();
+        setUpDto.setOwner(setUpService.registerOwner(item));
+
         setUpService.markRegisterOwnerCompleted();
-        response.setData(Map.of("setUpInfo", setUpService.getCurrentState(), "ownerInfo", item));
+        response.setData(setUpDto);
+
         return response;
     }
 
@@ -59,10 +63,13 @@ public class SetUpController {
     @Path("/create-shop")
     public ResponseDto createShop(Shop item) {
         ResponseDto response = ResponseDto.builder().type(ResponseDto.SUCCESS).build();
-        item = setUpService.createShop(item);
-        log.info("{}", item);
+
+        SetUpDto setUpDto = setUpService.getCurrentState();
+        setUpDto.setShop(setUpService.createShop(item));
+
         setUpService.markCreateShopCompleted();
-        response.setData(Map.of("setUpInfo", setUpService.getCurrentState(), "shopInfo", item));
+        response.setData(setUpDto);
+
         return response;
     }
 
@@ -71,6 +78,7 @@ public class SetUpController {
     public ResponseDto findById(@QueryParam("atc") Boolean atc) {
         ResponseDto response = ResponseDto.builder().build();
         if(atc) {
+            setUpService.markSummaryCompleted();
             response.setType(ResponseDto.SUCCESS);
             response.setData(setUpService.getCurrentState());
         }
