@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import java.util.Map;
 
 @Slf4j
 @Path("/api/set-up")
@@ -35,6 +34,7 @@ public class SetUpController {
         ResponseDto response = ResponseDto.builder().build();
         if (setUpService.auth(item.getPassword())) {
             response.setType(ResponseDto.SUCCESS);
+            response.setData(setUpService.getCurrentState());
         } else {
             response.setType(ResponseDto.ERROR);
             response.setMessage("Invalid Password");
@@ -45,31 +45,36 @@ public class SetUpController {
     @POST
     @Path("/register-owner")
     public ResponseDto registerOwner(User item) {
-        ResponseDto response = ResponseDto.builder().type(ResponseDto.SUCCESS).build();
-
+        ResponseDto response = ResponseDto.builder().build();
+        if (checkAuthentication()) {
+            response.setType(ResponseDto.ERROR);
+            response.setMessage("You are not authorized to use this end point.");
+            return response;
+        }
         item.setPassword(item.getToken());
         item.setToken(null);
-
         SetUpDto setUpDto = setUpService.getCurrentState();
         setUpDto.setOwner(setUpService.registerOwner(item));
-
         setUpService.markRegisterOwnerCompleted();
         response.setData(setUpDto);
-
+        response.setType(ResponseDto.SUCCESS);
         return response;
     }
 
     @POST
     @Path("/create-shop")
     public ResponseDto createShop(Shop item) {
-        ResponseDto response = ResponseDto.builder().type(ResponseDto.SUCCESS).build();
-
+        ResponseDto response = ResponseDto.builder().build();
+        if (checkAuthentication()) {
+            response.setType(ResponseDto.ERROR);
+            response.setMessage("You are not authorized to use this end point.");
+            return response;
+        }
         SetUpDto setUpDto = setUpService.getCurrentState();
         setUpDto.setShop(setUpService.createShop(item));
-
         setUpService.markCreateShopCompleted();
         response.setData(setUpDto);
-
+        response.setType(ResponseDto.SUCCESS);
         return response;
     }
 
@@ -77,15 +82,23 @@ public class SetUpController {
     @Path("/accept-terms-and-conditions")
     public ResponseDto findById(@QueryParam("atc") Boolean atc) {
         ResponseDto response = ResponseDto.builder().build();
-        if(atc) {
+        if (checkAuthentication()) {
+            response.setType(ResponseDto.ERROR);
+            response.setMessage("You are not authorized to use this end point.");
+            return response;
+        }
+        if (atc) {
             setUpService.markSummaryCompleted();
             response.setType(ResponseDto.SUCCESS);
             response.setData(setUpService.getCurrentState());
-        }
-        else {
+        } else {
             response.setType(ResponseDto.ERROR);
             response.setMessage("You must accept the terms and conditions...");
         }
         return response;
+    }
+
+    private boolean checkAuthentication() {
+        return !setUpService.getCurrentState().isAuthenticated();
     }
 }

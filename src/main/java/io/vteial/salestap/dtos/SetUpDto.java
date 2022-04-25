@@ -26,15 +26,17 @@ public class SetUpDto {
 
     public static String STEP_SUMMARY = "summary";
 
+    private boolean isAuthenticated;
+
     private String state;
 
     private Map<String, Boolean> steps;
 
-    private boolean termsAndConditions;
-
     private User owner;
 
     private Shop shop;
+
+    private boolean termsAndConditions;
 
     public void initSteps() {
         steps = new HashMap<>();

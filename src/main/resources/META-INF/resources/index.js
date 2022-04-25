@@ -8,6 +8,7 @@ const http = axios.create({
 const setUpService = {
     sadminInfo: { userId: 'sadmin', password: null },
     setUpInfo: {
+        isAuthenticated: false,
         state: 'New',
         steps: { 'register-owner': false, 'create-shop': false, 'summary': false },
         termsAndConditions: false,
@@ -33,11 +34,12 @@ const setUpService = {
        return http.get('/set-up/current-state');
    },
    setSetUpInfo: function(item) {
+       this.setUpInfo.isAuthenticated = item.authenticated;
        this.setUpInfo.state = item.state;
        this.setUpInfo.steps = item.steps;
-       this.setUpInfo.termsAndConditions = item.termsAndConditions;
        this.setUpInfo.owner = item.owner;
        this.setUpInfo.shop = item.shop;
+       this.setUpInfo.termsAndConditions = item.termsAndConditions;
    },
    auth: function(item) {
        return http.post('/set-up/auth', item);
@@ -61,10 +63,6 @@ const notFoundView = {
 const homeView = {
     name: 'Home',
     template: '#app-home-view',
-    mounted() {
-        console.log('home mounted...');
-        console.log(setUpService.setUpInfo);
-    },
     data() {
         var o = {
             userId: setUpService.sadminInfo.userId,
@@ -72,9 +70,13 @@ const homeView = {
         };
         o.password = 'salestap4321'
         return {
+            setUpInfo: setUpService.setUpInfo,
             item: o,
             message: null
         }
+    },
+    mounted() {
+        this.setUpInfo = setUpService.setUpInfo;
     },
     methods: {
         auth() {
@@ -83,14 +85,18 @@ const homeView = {
             setUpService.auth(this.item).then(res => {
                 console.log(res);
                 if(res.data.type === 0) {
+                    setUpService.setSetUpInfo(res.data.data);
                     var o = setUpService.setUpInfo;
-                    console.log(o);
-                    if(o.steps['create-shop'])
+                    if(o.state == 'Completed') {
                         this.$router.push('/summary');
-                    else if(o.steps['register-owner'])
-                        this.$router.push('/create-shop');
-                    else
-                        this.$router.push('/register-owner');
+                    } else {
+                        if(o.steps['create-shop'])
+                            this.$router.push('/summary');
+                        else if(o.steps['register-owner'])
+                            this.$router.push('/create-shop');
+                        else
+                            this.$router.push('/register-owner');
+                    }
                 }
                 else
                     this.message = res.data.message;
@@ -228,33 +234,56 @@ const summaryView = {
     }
 };
 
+const routeGuard = function(to, from) {
+    console.log('isA : ' + setUpService.setUpInfo.isAuthenticated);
+    return setUpService.setUpInfo.isAuthenticated ? true : '/home';
+};
+
 const router = VueRouter.createRouter({
     history: VueRouter.createWebHashHistory(),
     routes: [
         { path: '/:pathMatch(.*)*', name: 'NotFound', component: notFoundView },
         { path: '/', redirect: '/home' },
         { path: '/home', name: homeView.name, component: homeView },
-        { path: '/register-owner', name: registerOwnerView.name, component: registerOwnerView},
-        { path: '/create-shop', name: createShopView.name, component: createShopView},
-        { path: '/summary', name: summaryView.name, component: summaryView},
+        {
+            path: '/register-owner',
+            name: registerOwnerView.name,
+            component: registerOwnerView,
+            beforeEnter: routeGuard
+        },
+        {
+            path: '/create-shop',
+            name: createShopView.name,
+            component: createShopView,
+            beforeEnter: routeGuard
+        },
+        {
+            path: '/summary',
+            name: summaryView.name,
+            component: summaryView,
+            beforeEnter: routeGuard
+        },
     ]
 });
 
 const app = Vue.createApp({
     name: 'app',
     template: '#app-root-view',
+    mounted() {
+        setUpService.getSetUpInfo().then(res => {
+            console.log(res.data);
+            setUpService.setSetUpInfo(res.data);
+            this.setUpInfo = setUpService.setUpInfo;
+            console.log(this.setUpInfo);
+            this.$forceUpdate();
+        });
+    },
     data() {
         return {
             appName: 'SalesTap',
             setUpInfo: setUpService.setUpInfo,
         }
     },
-    mounted() {
-        setUpService.getSetUpInfo().then(res => {
-            console.log(res.data);
-            setUpService.setSetUpInfo(res.data);
-        })
-    }
 });
 
 app.use(router);

@@ -52,7 +52,11 @@ public class DefaultSetUpService implements SetUpService {
     }
 
     public boolean auth(String password) {
-        return sadminPassword.equals(password);
+        if(sadminPassword.equals(password)) {
+            this.setUpDto.setAuthenticated(true);
+            return true;
+        }
+        return false;
     }
 
     @Transactional

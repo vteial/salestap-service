@@ -17,8 +17,12 @@
 <div id="app"></div>
 
 <script type="text/x-template" id="app-home-view">
-    <p>Welcome to <strong class="text-info">SalesTap</strong> setup process</p>
-    <form class="row g-3">
+    <p>Welcome to <strong class="text-info">SalesTap</strong> setup process.</p>
+    <p v-if="setUpInfo.state == 'Completed'">
+        It's seems that the setup has already completed.
+        Proceed <span v-if="!setUpInfo.isAuthenticated">sign in</span> to view the summary.
+    </p>
+    <form class="row g-3" v-if="!setUpInfo.isAuthenticated">
         <div class="col-md-4">
             <div>
                 <label for="sadminPassword" class="form-label">System Admin Password</label>
@@ -181,7 +185,7 @@
             <h5 class="text-uppercase text-success">{{ shop.status }}</h5>
         </div>
     </div>
-    <form class="border-top">
+    <form class="border-top" v-if="setUpInfo.state != 'Completed'">
         <div class="form-check py-2">
             <input class="form-check-input" type="checkbox" id="atc" v-model="atc">
             <label class="form-check-label" for="atc">I accept the terms and conditions</label>
@@ -210,13 +214,13 @@
                                 <i class="fa fa-home px-1"></i> Home <span class="sr-only">(current)</span>
                             </router-link>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" v-if="setUpInfo.state != 'Completed'">
                             <router-link to="/register-owner" class="nav-link px-2"
                                          :class="{ active: $route.name === 'Register Owner', disabled: !setUpInfo.steps['register-owner'] }">
                                 Register Owner
                             </router-link>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" v-if="setUpInfo.state != 'Completed'">
                             <router-link to="/create-shop" class="nav-link px-2"
                                          :class="{ active: $route.name === 'Create Shop', disabled: !setUpInfo.steps['create-shop'] }">
                                 Create Shop
