@@ -57,5 +57,15 @@ public class DefaultAppConfigService implements AppConfigService {
         }
     }
 
+    @Transactional
+    @Override
+    public boolean remove(String key) {
+        return appConfigRepository.delete("key", key) != 0;
+    }
 
+    @Transactional
+    @Override
+    public boolean remove(Long id) {
+        return appConfigRepository.deleteById(id);
+    }
 }

@@ -12,4 +12,8 @@ public interface AppConfigService {
 
     void setValue(String key, String val);
 
+    boolean remove(String key);
+
+    boolean remove(Long id);
+
 }

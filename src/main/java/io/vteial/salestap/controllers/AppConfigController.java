@@ -45,7 +45,7 @@ public class AppConfigController {
     public Response remove(@PathParam("key") String key) {
         ResponseDto responseDto = ResponseDto.builder()
                 .type(ResponseDto.WARNING)
-                .message("Not yet implemented")
+                .message(appConfigService.remove(key) ? "Deleted successfully" : "Delete failed. Key may not exist.")
                 .build();
         return Response.ok(responseDto).status(200).build();
     }
