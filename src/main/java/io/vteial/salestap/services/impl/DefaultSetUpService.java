@@ -24,16 +24,16 @@ import javax.transaction.Transactional;
 public class DefaultSetUpService implements SetUpService {
 
     @ConfigProperty(name = "app.sadmin-password")
-    private String sadminPassword = "-";
+    String sadminPassword = "-";
 
     @Inject
-    private AppConfigRepository appConfigRepository;
+    AppConfigRepository appConfigRepository;
 
     @Inject
-    private UserService userService;
+    UserService userService;
 
     @Inject
-    private ShopService shopService;
+    ShopService shopService;
 
     private SetUpDto setUpDto;
 

@@ -76,7 +76,10 @@ const homeView = {
         }
     },
     mounted() {
-        this.setUpInfo = setUpService.setUpInfo;
+        var self = this;
+        setTimeout(function() {
+            self.$forceUpdate();
+        }, 2000);
     },
     methods: {
         auth() {
@@ -86,13 +89,13 @@ const homeView = {
                 console.log(res);
                 if(res.data.type === 0) {
                     setUpService.setSetUpInfo(res.data.data);
-                    var o = setUpService.setUpInfo;
-                    if(o.state == 'Completed') {
+                    this.setUpInfo = setUpService.setUpInfo;
+                    if(this.setUpInfo.state == 'Completed') {
                         this.$router.push('/summary');
                     } else {
-                        if(o.steps['create-shop'])
+                        if(this.setUpInfo.steps['create-shop'])
                             this.$router.push('/summary');
-                        else if(o.steps['register-owner'])
+                        else if(this.setUpInfo.steps['register-owner'])
                             this.$router.push('/create-shop');
                         else
                             this.$router.push('/register-owner');
@@ -108,10 +111,6 @@ const homeView = {
 const registerOwnerView = {
     name: 'Register Owner',
     template: '#app-register-owner-view',
-    mounted() {
-        console.log('register-owner mounted');
-        console.log(setUpService.setUpInfo);
-    },
     data() {
         var o = setUpService.ownerInfo;
         // console.log(o);
@@ -156,10 +155,6 @@ const registerOwnerView = {
 const createShopView = {
     name: 'Create Shop',
     template: '#app-create-shop-view',
-    mounted() {
-        console.log('create-shop mounted');
-        console.log(setUpService.setUpInfo);
-    },
     data() {
         var o = setUpService.shopInfo;
         // console.log(o);
@@ -201,10 +196,6 @@ const createShopView = {
 const summaryView = {
     name: 'Summary',
     template: '#app-summary-view',
-    mounted() {
-        console.log('summary mounted');
-        console.log(setUpService.setUpInfo);
-    },
     data() {
         return {
             setUpInfo: setUpService.setUpInfo,
@@ -235,7 +226,7 @@ const summaryView = {
 };
 
 const routeGuard = function(to, from) {
-    console.log('isA : ' + setUpService.setUpInfo.isAuthenticated);
+    // console.log('isA : ' + setUpService.setUpInfo.isAuthenticated);
     return setUpService.setUpInfo.isAuthenticated ? true : '/home';
 };
 
@@ -269,21 +260,21 @@ const router = VueRouter.createRouter({
 const app = Vue.createApp({
     name: 'app',
     template: '#app-root-view',
-    mounted() {
-        setUpService.getSetUpInfo().then(res => {
-            console.log(res.data);
-            setUpService.setSetUpInfo(res.data);
-            this.setUpInfo = setUpService.setUpInfo;
-            console.log(this.setUpInfo);
-            this.$forceUpdate();
-        });
-    },
     data() {
         return {
             appName: 'SalesTap',
             setUpInfo: setUpService.setUpInfo,
         }
     },
+    mounted() {
+        setUpService.getSetUpInfo().then(res => {
+//            console.log(res.data);
+            setUpService.setSetUpInfo(res.data);
+            this.setUpInfo = setUpService.setUpInfo;
+//            console.log(this.setUpInfo);
+            this.$forceUpdate();
+        });
+    }
 });
 
 app.use(router);
