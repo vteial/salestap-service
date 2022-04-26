@@ -22,7 +22,7 @@
         It's seems that the setup has already completed.
         Proceed <span v-if="!setUpInfo.isAuthenticated">sign in</span> to view the summary.
     </p>
-    <form class="row g-3" v-if="!setUpInfo.isAuthenticated">
+    <form class="row g-3" v-if="setUpInfo.state != 'Completed'">
         <div class="col-md-4">
             <div>
                 <label for="sadminPassword" class="form-label">System Admin Password</label>

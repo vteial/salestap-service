@@ -53,10 +53,7 @@ public class SetUpController {
         }
         item.setPassword(item.getToken());
         item.setToken(null);
-        SetUpDto setUpDto = setUpService.getCurrentState();
-        setUpDto.setOwner(setUpService.registerOwner(item));
-        setUpService.markRegisterOwnerCompleted();
-        response.setData(setUpDto);
+        response.setData(setUpService.registerOwner(item));
         response.setType(ResponseDto.SUCCESS);
         return response;
     }
@@ -70,10 +67,7 @@ public class SetUpController {
             response.setMessage("You are not authorized to use this end point.");
             return response;
         }
-        SetUpDto setUpDto = setUpService.getCurrentState();
-        setUpDto.setShop(setUpService.createShop(item));
-        setUpService.markCreateShopCompleted();
-        response.setData(setUpDto);
+        response.setData(setUpService.createShop(item));
         response.setType(ResponseDto.SUCCESS);
         return response;
     }

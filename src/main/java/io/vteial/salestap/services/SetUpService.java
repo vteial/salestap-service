@@ -10,9 +10,9 @@ public interface SetUpService {
 
     boolean auth(String password);
 
-    User registerOwner(User item);
+    SetUpDto registerOwner(User item);
 
-    Shop createShop(Shop item);
+    SetUpDto createShop(Shop item);
 
     void markRegisterOwnerCompleted();
 

@@ -61,24 +61,25 @@ public class DefaultSetUpService implements SetUpService {
 
     @Transactional
     @Override
-    public User registerOwner(User item) {
+    public SetUpDto registerOwner(User item) {
         item.setType(UserType.OWNER);
         item.setRoleId("owner");
         item.setStatus(UserStatus.ACTIVE);
         item = userService.create(item);
         setUpDto.setOwner(item);
-        return item;
+        this.markRegisterOwnerCompleted();
+        return setUpDto;
     }
 
     @Transactional
     @Override
-    public Shop createShop(Shop item) {
+    public SetUpDto createShop(Shop item) {
         if(item.getId() == 0) item.setParentId(0L);
         item.setUserId(setUpDto.getOwner().getId());
         item.setStatus(EntityStatus.ACTIVE);
         item = shopService.create(item);
         setUpDto.setShop(item);
-        return item;
+        return setUpDto;
     }
 
     @Override
