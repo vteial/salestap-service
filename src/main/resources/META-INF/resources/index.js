@@ -90,7 +90,7 @@ const homeView = {
                 if(res.data.type === 0) {
                     setUpService.setSetUpInfo(res.data.data);
                     this.setUpInfo = setUpService.setUpInfo;
-                    if(this.setUpInfo.state == 'Completed') {
+                    if(this.setUpInfo.state === 'Completed') {
                         this.$router.push('/summary');
                     } else {
                         if(this.setUpInfo.steps['create-shop'])
@@ -268,10 +268,10 @@ const app = Vue.createApp({
     },
     mounted() {
         setUpService.getSetUpInfo().then(res => {
-//            console.log(res.data);
+            console.log(res.data);
             setUpService.setSetUpInfo(res.data);
             this.setUpInfo = setUpService.setUpInfo;
-//            console.log(this.setUpInfo);
+            console.log(this.setUpInfo);
             this.$forceUpdate();
         });
     }
