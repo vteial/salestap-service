@@ -13,6 +13,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import java.util.Map;
+
 import static java.util.Objects.requireNonNull;
 
 @Slf4j
@@ -40,8 +42,18 @@ public class DefaultController {
     @Path("ping")
     @Produces(MediaType.TEXT_PLAIN)
     public String ping() {
-        log.debug("serving ping...");
         return "Ping Pong!!!";
+    }
+
+    @GET
+    @Path("api/app-info")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Object> appInfo() {
+        Map<String, Object> appInfo = Map.of(
+                "mode",io.quarkus.runtime.LaunchMode.current(),
+                "name", appName
+        );
+        return appInfo;
     }
 
     @Inject

@@ -6,7 +6,7 @@ const homeView = {
             userId: setUpService.sadminInfo.userId,
             password: setUpService.sadminInfo.password
         };
-        o.password = 'salestap4321'
+//        o.password = 'salestap4321'
         return {
             setUpInfo: setUpService.setUpInfo,
             item: o,

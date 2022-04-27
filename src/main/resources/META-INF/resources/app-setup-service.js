@@ -1,4 +1,5 @@
 const setUpService = {
+    appInfo: { name: 'SalesTap', mode: 'normal'},
     sadminInfo: { userId: 'sadmin', password: null },
     setUpInfo: {
         isAuthenticated: false,
@@ -8,20 +9,12 @@ const setUpService = {
         owner: null,
         shop: null
    },
-   ownerInfo: {
-       id: 0,
-       firstName: null,
-       lastName: null,
-       emailId: null,
-       mobileNo: null,
-       userId: null,
-       password: null
-    },
-   shopInfo: {
-        id: 0,
-        code: null,
-        name: null,
-        aliasName: null,
+   getAndSetAppInfo: function() {
+        http.get('/app-info').then(res => {
+            this.appInfo.name = res.data.name;
+            this.appInfo.mode = res.data.mode.toLowerCase();
+            console.log(this.appInfo);
+        });
    },
    getSetUpInfo: function() {
        return http.get('/set-up/current-state');

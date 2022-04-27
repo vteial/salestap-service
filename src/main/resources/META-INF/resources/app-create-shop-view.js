@@ -2,15 +2,19 @@ const createShopView = {
     name: 'Create Shop',
     template: '#app-create-shop-view',
     data() {
-        var o = setUpService.shopInfo;
-        // console.log(o);
-        if(o.id === 0) {
+        var o = {
+            code: null,
+            name: null,
+            aliasName: null,
+        };
+         if(setUpService.appInfo.mode != 'normal') {
             o = {
-                id: 0,
                 code: 'shop-ho',
                 name: 'National Super Market',
                 aliasName: 'Main Branch',
             }
+        } else {
+            o = setUpService.setUpInfo.shop;
         }
         return {
             item: o,

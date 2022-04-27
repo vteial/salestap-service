@@ -2,9 +2,15 @@ const registerOwnerView = {
     name: 'Register Owner',
     template: '#app-register-owner-view',
     data() {
-        var o = setUpService.ownerInfo;
-        // console.log(o);
-        if(o.id === 0) {
+        var o = {
+            firstName: null,
+            lastName: null,
+            emailId: null,
+            mobileNo: null,
+            userId: null,
+            password: null
+        }
+        if(setUpService.appInfo.mode != 'normal') {
             o = {
                 firstName: 'Eialarasu',
                 lastName: 'VT',
@@ -13,6 +19,8 @@ const registerOwnerView = {
                 userId: 'vteial',
                 password: '1234'
             }
+        } else {
+            o = setUpService.setUpInfo.owner;
         }
         return {
             item: o,

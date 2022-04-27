@@ -1,14 +1,14 @@
+const notFoundView = {
+    name: 'Not Found',
+    template: '<p>Page not found...</p>'
+};
+
 const http = axios.create({
     baseURL: "http://localhost:8080/api",
     headers: {
         "Content-type": "application/json",
     },
 });
-
-const notFoundView = {
-    name: 'Not Found',
-    template: '<p>Page not found...</p>'
-};
 
 const routeGuard = function(to, from) {
     // console.log('isA : ' + setUpService.setUpInfo.isAuthenticated);
@@ -47,13 +47,14 @@ const app = Vue.createApp({
     template: '#app-root-view',
     data() {
         return {
-            appName: 'SalesTap',
+            appName: setUpService.appInfo.name,
             setUpInfo: setUpService.setUpInfo,
         }
     },
     mounted() {
+        setUpService.getAndSetAppInfo();
         setUpService.getSetUpInfo().then(res => {
-            console.log(res.data);
+//            console.log(res.data);
             setUpService.setSetUpInfo(res.data);
             this.setUpInfo = setUpService.setUpInfo;
             console.log(this.setUpInfo);
