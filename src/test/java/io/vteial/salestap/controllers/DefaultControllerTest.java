@@ -14,23 +14,23 @@ public class DefaultControllerTest {
     @ConfigProperty(name = "app.name")
     private String appName = "-";
 
-    @Test
-    public void ping() {
-        given()
-                .when()
-                .get("/ping")
-                .then()
-                .statusCode(200)
-                .body(is("Ping Pong!!!"));
-    }
+//    @Test
+//    public void ping() {
+//        given()
+//                .when()
+//                .get("/ping")
+//                .then()
+//                .statusCode(200)
+//                .body(is("Ping Pong!!!"));
+//    }
 
-    @Test
-    public void index() {
-        given()
-                .when()
-                .get("/index")
-                .then()
-                .statusCode(200)
-                .body(containsString(appName));
-    }
+//    @Test
+//    public void index() {
+//        given()
+//                .when()
+//                .get("/index")
+//                .then()
+//                .statusCode(200)
+//                .body(containsString(appName));
+//    }
 }

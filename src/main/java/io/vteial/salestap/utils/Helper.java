@@ -1,9 +1,12 @@
 package io.vteial.salestap.utils;
 
-//import javax.servlet.http.HttpServletRequest;
-
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class Helper {
 
@@ -16,14 +19,12 @@ public class Helper {
         return sw.toString();
     }
 
-//    public static String getDomainPrefix(HttpServletRequest request, String profileId) {
-//        if (domainPrefix != null) {
-//            return domainPrefix;
-//        }
-//
-//        domainPrefix = "http://" + request.getLocalAddr() + ":" + request.getLocalPort();
-//
-//        return domainPrefix;
-//    }
+    public static Map<String, String> covertCVException(ConstraintViolationException cve) {
+        Map<String, String> vmap = new HashMap<String, String>();
+        for (ConstraintViolation<?> violation : cve.getConstraintViolations()) {
+            vmap.put(violation.getPropertyPath().toString(), violation.getMessage());
+        }
+        return vmap;
+    }
 
 }

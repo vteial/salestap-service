@@ -18,6 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 @Slf4j
 @ApplicationScoped
@@ -61,7 +62,7 @@ public class DefaultSetUpService implements SetUpService {
 
     @Transactional
     @Override
-    public SetUpDto registerOwner(User item) {
+    public SetUpDto registerOwner(@Valid User item) {
         item.setType(UserType.OWNER);
         item.setRoleId("owner");
         item.setStatus(UserStatus.ACTIVE);
@@ -73,7 +74,7 @@ public class DefaultSetUpService implements SetUpService {
 
     @Transactional
     @Override
-    public SetUpDto createShop(Shop item) {
+    public SetUpDto createShop(@Valid Shop item) {
         if(item.getId() == 0) item.setParentId(0L);
         item.setUserId(setUpDto.getOwner().getId());
         item.setStatus(EntityStatus.ACTIVE);

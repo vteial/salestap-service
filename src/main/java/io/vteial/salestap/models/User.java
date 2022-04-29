@@ -5,6 +5,9 @@ import io.vteial.salestap.dtos.SessionDto;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -21,6 +24,9 @@ public class User extends AbstractModel {
     @Column(name = "id")
     Long id;
 
+    @Size(min = 4, max = 15, message = "User Id should have size [{min},{max}]")
+    @NotBlank(message = "User Id should not be blank")
+    @Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9]+$", message = "'UserId' should start with a letter and should only have letters and numbers")
     @Column(name = "user_id", nullable = false)
     String userId;
 
@@ -28,15 +34,19 @@ public class User extends AbstractModel {
     @Column(name = "password", nullable = false)
     String password;
 
+    @NotBlank(message = "Email Id should not be blank")
     @Column(name = "email_id", nullable = false)
     String emailId;
 
+    @NotBlank(message = "Mobile No should not be blank")
     @Column(name = "mobile_no", nullable = false)
     String mobileNo;
 
+    @NotBlank(message = "First Name should not be blank")
     @Column(name = "first_name", nullable = false)
     String firstName;
 
+    @NotBlank(message = "Last Name should not be blank")
     @Column(name = "last_name", nullable = false)
     String lastName;
 

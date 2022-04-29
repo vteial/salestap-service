@@ -6,10 +6,12 @@ import io.vteial.salestap.dtos.UserDto;
 import io.vteial.salestap.models.Shop;
 import io.vteial.salestap.models.User;
 import io.vteial.salestap.services.SetUpService;
+import io.vteial.salestap.utils.Helper;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.validation.ConstraintViolationException;
 import javax.ws.rs.*;
 
 @Slf4j
@@ -53,8 +55,14 @@ public class SetUpController {
         }
         item.setPassword(item.getToken());
         item.setToken(null);
-        response.setData(setUpService.registerOwner(item));
-        response.setType(ResponseDto.SUCCESS);
+        try {
+            response.setData(setUpService.registerOwner(item));
+            response.setType(ResponseDto.SUCCESS);
+        } catch (ConstraintViolationException cve) {
+            response.setType(ResponseDto.ERROR);
+            response.setMessage("Owner should have valid values...");
+            response.setData(Helper.covertCVException(cve));
+        }
         return response;
     }
 
@@ -67,8 +75,14 @@ public class SetUpController {
             response.setMessage("You are not authorized to use this end point.");
             return response;
         }
-        response.setData(setUpService.createShop(item));
-        response.setType(ResponseDto.SUCCESS);
+        try {
+            response.setData(setUpService.createShop(item));
+            response.setType(ResponseDto.SUCCESS);
+        } catch (ConstraintViolationException cve) {
+            response.setType(ResponseDto.ERROR);
+            response.setMessage("Shop should have valid values...");
+            response.setData(Helper.covertCVException(cve));
+        }
         return response;
     }
 
