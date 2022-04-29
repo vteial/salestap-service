@@ -6,11 +6,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class Helper {
-
-    private static String domainPrefix = null;
 
     public static String getStackTraceAsString(Throwable t) {
         StringWriter sw = new StringWriter();

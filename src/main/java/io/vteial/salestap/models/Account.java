@@ -81,6 +81,7 @@ public class Account extends AbstractModel {
 //        userId = this.user.getId();
 //    }
 
+    // common fields
     @Column(name = "create_time", nullable = false)
     protected Date createTime;
 

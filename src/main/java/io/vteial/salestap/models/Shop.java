@@ -3,10 +3,10 @@ package io.vteial.salestap.models;
 import io.vteial.salestap.dtos.SessionDto;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -18,21 +18,28 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 public class Shop extends AbstractModel {
 
+    @GeneratedValue
     @Id
     @Column(name = "id")
-    private long id;
+    private Long id;
 
+    @Size(min = 3, max = 6, message = "Code should have size [{min},{max}]")
+    @NotBlank(message = "Code should not be blank")
     @Column(name = "code", nullable = false)
     private String code;
 
+    @Size(min = 3, max = 30, message = "Name should have size [{min},{max}]")
+    @NotBlank(message = "Name should not be blank")
+    // @Pattern(regexp = "^[a-zA-Z]+$", message = "Name should start with a letter and should only have letters")
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Size(min = 3, max = 30, message = "Alias Name should have size [{min},{max}]")
     @Column(name = "alias_name", nullable = true)
     private String aliasName;
 
     @Column(name = "parent_id", nullable = false)
-    private long parentId;
+    private Long parentId;
 
     @Column(name = "status", nullable = false)
     private String status;

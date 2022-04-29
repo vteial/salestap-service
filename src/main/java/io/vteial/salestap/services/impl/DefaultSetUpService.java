@@ -66,8 +66,7 @@ public class DefaultSetUpService implements SetUpService {
         item.setType(UserType.OWNER);
         item.setRoleId("owner");
         item.setStatus(UserStatus.ACTIVE);
-        item = userService.create(item);
-        setUpDto.setOwner(item);
+        setUpDto.setOwner(userService.create(item));
         this.markRegisterOwnerCompleted();
         return setUpDto;
     }
@@ -75,11 +74,10 @@ public class DefaultSetUpService implements SetUpService {
     @Transactional
     @Override
     public SetUpDto createShop(@Valid Shop item) {
-        if(item.getId() == 0) item.setParentId(0L);
+        if(item.getId() == null) item.setParentId(0L);
         item.setUserId(setUpDto.getOwner().getId());
         item.setStatus(EntityStatus.ACTIVE);
-        item = shopService.create(item);
-        setUpDto.setShop(item);
+        setUpDto.setShop(shopService.create(item));
         return setUpDto;
     }
 

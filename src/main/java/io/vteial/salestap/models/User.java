@@ -65,7 +65,7 @@ public class User extends AbstractModel {
 //    transient Role role;
 //
 //    @Column(name = "node_id", nullable = true)
-//    long nodeId;
+//    Long nodeId;
 //
 //    @JsonIgnore
 //    @ToString.Exclude
@@ -77,7 +77,7 @@ public class User extends AbstractModel {
 //    }
 //
 //    @Column(name = "cash_account_id")
-//    private long cashAccountId;
+//    private Long cashAccountId;
 //
 //    // @OneToOne
 //    @JsonIgnore
