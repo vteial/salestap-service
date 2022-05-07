@@ -15,6 +15,8 @@ public class ResponseDto {
 
     public static final int WARNING = 2;
 
+    public static final int INFO = 3;
+
     private int type;
 
     private String message;
