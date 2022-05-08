@@ -68,6 +68,13 @@ public class DefaultController {
         return String.valueOf(taskService.getTestCounter());
     }
 
+    @GET
+    @Path("say-hello")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String sayHello() {
+        return "Say Hello";
+    }
+
 //    @GET
 //    @Path("fail-with-individual-exception")
 //    public Response failWithIndividualResponse() {
